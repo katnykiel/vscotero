@@ -1,6 +1,21 @@
-# zotero-markdown
+# vsco-tero
 
-an unholy blend of vscode and zotero for literature review
+> An unholy blend of vs-code and Zotero for literature review
+
+This extension generates literature notes (.md) from your Zotero library and autopopulates them with the following:
+
+- item metadata and tags
+- your Zotero annotations
+- GPT-generated insight
+
+*insert an image or quick video demo-ing the tool*
+
+## Requirements
+
+This extension requires installations of [VSCode](https://code.visualstudio.com/) and [Zotero](https://www.zotero.org/), with the following requirements:
+
+- Zotfile
+- auto-export .bib file
 
 ## idea
  
@@ -19,3 +34,12 @@ an unholy blend of vscode and zotero for literature review
     - export annotations to markdown
     - add annotations to literature note
 - output: web of .md files each corresponding to a paper and containing metadata and info
+
+## todos
+
+- [ ] write zotero setup manual
+- [ ] make lit notes from bib file
+  - [ ] make authors taggable
+- [ ] populate lit notes with llm content
+- [ ] get annotations from zotero
+- [ ] config info (pdf path, md path, api keys, .bib file)
