@@ -42,4 +42,4 @@ This extension requires installations of [VSCode](https://code.visualstudio.com/
   - [ ] make authors taggable
 - [ ] populate lit notes with llm content
 - [ ] get annotations from zotero
-- [ ] config info (pdf path, md path, api keys, .bib file)
+- [ ] config info (pdf path, md path, api keys, .bib file) in vscode settings
