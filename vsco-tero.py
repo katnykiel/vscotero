@@ -3,6 +3,8 @@
 import bibtexparser
 import yaml
 import os
+from watchdog.observers import Observer
+from watchdog.events import FileSystemEventHandler
 
 
 def get_bib_database(bibtex_file):
@@ -50,3 +52,28 @@ def loop_through_bib_database(bib_database):
     
     for entry in bib_database.entries:
         get_yaml_from_bib_entry(entry)
+
+
+
+class FileHandler(FileSystemEventHandler):
+    def on_modified(self, event):
+        if not event.is_directory:
+            print(f'File {event.src_path} has been modified')
+            # TODO: Add script executable here
+            
+
+def main(watchdog_path):
+    if __name__ == "main":
+        path = watchdog_path
+        event_handler = FileHandler()
+        observer = Observer()
+        observer.schedule(event_handler, path, recursive=True)
+        observer.start()
+
+        try:
+            while True:
+                time.sleep(1)
+        except KeyboardInterrupt:
+            observer.stop()
+
+        observer.join()
