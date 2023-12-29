@@ -5,6 +5,7 @@ import yaml
 import os
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
+import time
 
 
 def get_bib_database(bibtex_file):
@@ -60,20 +61,22 @@ class FileHandler(FileSystemEventHandler):
         if not event.is_directory:
             print(f'File {event.src_path} has been modified')
             # TODO: Add script executable here
-            
 
-def main(watchdog_path):
-    if __name__ == "main":
-        path = watchdog_path
-        event_handler = FileHandler()
-        observer = Observer()
-        observer.schedule(event_handler, path, recursive=True)
-        observer.start()
+def check(watchdog_path):
+    path = watchdog_path
+    event_handler = FileHandler()
+    observer = Observer()
+    observer.schedule(event_handler, path, recursive=True)
+    observer.start()
 
-        try:
-            while True:
-                time.sleep(1)
-        except KeyboardInterrupt:
-            observer.stop()
+    try:
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        observer.stop()
 
-        observer.join()
+    observer.join()
+
+
+
+check()
