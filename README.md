@@ -43,3 +43,9 @@ This extension requires installations of [VSCode](https://code.visualstudio.com/
 - [ ] populate lit notes with llm content
 - [ ] get annotations from zotero
 - [ ] config info (pdf path, md path, api keys, .bib file) in vscode settings
+- [ ] VSC Settings UI Fields:
+  - [ ] Path to Zotero .bib file
+  - [ ] Path to Zotero PDFs
+  - [ ] Path to Zotero Annotations
+  - [ ] Path to Literature Notes
+  - [ ] OpenAI API Key
