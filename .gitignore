@@ -3,3 +3,6 @@
 
 # Except for readme.md
 !readme.md
+
+# Ignore kat's testing
+kat-test

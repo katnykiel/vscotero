@@ -43,6 +43,9 @@ This extension requires installations of [VSCode](https://code.visualstudio.com/
 - [ ] populate lit notes with llm content
 - [ ] get annotations from zotero
 - [ ] config info (pdf path, md path, api keys, .bib file) in vscode settings
+- [ ] checking for md files that have already been created
+- [ ] debug logging
+- [ ] make this into an extension
 - [ ] VSC Settings UI Fields:
   - [ ] Path to Zotero .bib file
   - [ ] Path to Zotero PDFs

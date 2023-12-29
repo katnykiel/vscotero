@@ -71,22 +71,29 @@ def get_authors_from_bib_entry(bib_entry):
     """
     try:
         authors = bib_entry["author"].split(" and ")
-        print(authors)
         return authors
     except KeyError:
-        print("No authors found")
         return []
 
 
-def make_markdown_file(yaml_str, authors, bib_entry):
+def make_markdown_file(yaml_str, authors, bib_entry, output_dir=""):
     """
     Create a markdown file for each BibTex entry. The markdown file will be named the same as the BibTex key.
     The markdown file will include the yaml representation of the BibTex entry.
     It will also include the names of each author enclosed in double square brackets.
     """
 
+    # If there is a / in the bib_entry["ID"] then remove the /
+    bib_entry["ID"] = bib_entry["ID"].replace("/", "-")
+
+    # Check if the output directory exists
+    if output_dir and os.path.isdir(output_dir):
+        output_path = os.path.join(output_dir, f'{bib_entry["ID"]}.md')
+    else:
+        output_path = f'{bib_entry["ID"]}.md'
+
     # Create the markdown file
-    with open(f'{bib_entry["ID"]}.md', "w") as f:
+    with open(output_path, "w") as f:
         author_string = ", ".join(f"[[{a}]]" for a in authors)
 
         doc = f"""---
@@ -97,8 +104,8 @@ def make_markdown_file(yaml_str, authors, bib_entry):
         f.write(doc)
 
 
-def test_md_from_bib():
-    test_bibtex_file = "tests/test.bib"
+def test_md_from_bib_kat():
+    test_bibtex_file = "tests/kat-test.bib"
 
     bib_database = get_bib_database(test_bibtex_file)
 
@@ -107,4 +114,7 @@ def test_md_from_bib():
     for bib_entry in bib_database.entries:
         yaml_str = get_yaml_from_bib_entry(bib_entry)
         authors = get_authors_from_bib_entry(bib_entry)
-        make_markdown_file(yaml_str, authors, bib_entry)
+        make_markdown_file(yaml_str, authors, bib_entry, output_dir="kat-test")
+
+
+test_md_from_bib()
