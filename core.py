@@ -1,11 +1,8 @@
-# vsco-tero
+# core.py
 
 import bibtexparser
 import yaml
 import os
-from watchdog.observers import Observer
-from watchdog.events import FileSystemEventHandler
-import time
 
 
 def get_bib_database(bibtex_file):
@@ -57,48 +54,57 @@ def get_yaml_from_bib_entry(bib_entry):
     return yaml_str
 
 
-def test_functions():
-    """
-    Test the get_bib_database and get_yaml_from_bib_entry functions.
-    """
-
-    # Get the BibDatabase object
-    entries = get_bib_database("tests/test.bib")
-
-    # Print the YAML representation of each BibTeX entry
-    for entry in entries.entries:
-        print(get_yaml_from_bib_entry(entry))
-
-
-test_functions()
-
-
 def loop_through_bib_database(bib_database):
     for entry in bib_database.entries:
         get_yaml_from_bib_entry(entry)
 
 
-class FileHandler(FileSystemEventHandler):
-    def on_modified(self, event):
-        if not event.is_directory:
-            print(f"File {event.src_path} has been modified")
-            # TODO: Add script executable here
+def get_authors_from_bib_entry(bib_entry):
+    """
+    Get the authors from a BibTeX entry.
 
+    Args:
+        bib_entry (dict): A dictionary representing a BibTeX entry.
 
-def check(watchdog_path):
-    path = watchdog_path
-    event_handler = FileHandler()
-    observer = Observer()
-    observer.schedule(event_handler, path, recursive=True)
-    observer.start()
-
+    Returns:
+        list: A list of authors.
+    """
     try:
-        while True:
-            time.sleep(1)
-    except KeyboardInterrupt:
-        observer.stop()
+        authors = bib_entry["author"].split(" and ")
+        print(authors)
+        return authors
+    except KeyError:
+        print("No authors found")
+        return []
 
-    observer.join()
+
+def make_markdown_file(yaml_str, authors, bib_entry):
+    """
+    Create a markdown file for each BibTex entry. The markdown file will be named the same as the BibTex key.
+    The markdown file will include the yaml representation of the BibTex entry.
+    It will also include the names of each author enclosed in double square brackets.
+    """
+
+    # Create the markdown file
+    with open(f'{bib_entry["ID"]}.md', "w") as f:
+        author_string = ", ".join(f"[[{a}]]" for a in authors)
+
+        doc = f"""---
+{yaml_str}
+---
+{author_string}
+"""
+        f.write(doc)
 
 
-# check()
+def test_md_from_bib():
+    test_bibtex_file = "tests/test.bib"
+
+    bib_database = get_bib_database(test_bibtex_file)
+
+    loop_through_bib_database(bib_database)
+
+    for bib_entry in bib_database.entries:
+        yaml_str = get_yaml_from_bib_entry(bib_entry)
+        authors = get_authors_from_bib_entry(bib_entry)
+        make_markdown_file(yaml_str, authors, bib_entry)
