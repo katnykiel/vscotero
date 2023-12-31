@@ -123,4 +123,3 @@ def make_markdown_file(yaml_str, authors, bib_entry, output_dir=""):
 
 if __name__ == "__main__":
     logging.basicConfig(filename="debug.log", level=logging.DEBUG)
-    test_md_from_bib_kat()

@@ -8,8 +8,8 @@
 kat-test
 kat-test.bib
 
-# Ignore log file
 *.log
-
-# Ignore pycache
 __pycache__
+.DS_Store
+
+
