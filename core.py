@@ -108,3 +108,5 @@ def test_md_from_bib():
         yaml_str = get_yaml_from_bib_entry(bib_entry)
         authors = get_authors_from_bib_entry(bib_entry)
         make_markdown_file(yaml_str, authors, bib_entry)
+
+print("hello world!")
