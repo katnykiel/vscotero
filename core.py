@@ -56,6 +56,15 @@ def get_yaml_from_bib_entry(bib_entry):
 
 
 def loop_through_bib_database(bib_database):
+    """
+    Loop through the entries in the given bib_database and perform some operation on each entry.
+
+    Args:
+        bib_database (BibDatabase): The BibDatabase object containing the entries.
+
+    Returns:
+        None
+    """
     for entry in bib_database.entries:
         get_yaml_from_bib_entry(entry)
 
@@ -107,19 +116,6 @@ def make_markdown_file(yaml_str, authors, bib_entry, output_dir=""):
 {author_string}
 """
         f.write(doc)
-
-
-def test_md_from_bib_kat():
-    test_bibtex_file = "tests/kat-test.bib"
-
-    bib_database = get_bib_database(test_bibtex_file)
-
-    loop_through_bib_database(bib_database)
-
-    for bib_entry in bib_database.entries:
-        yaml_str = get_yaml_from_bib_entry(bib_entry)
-        authors = get_authors_from_bib_entry(bib_entry)
-        make_markdown_file(yaml_str, authors, bib_entry, output_dir="kat-test")
 
 
 if __name__ == "__main__":
