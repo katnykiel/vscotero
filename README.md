@@ -40,9 +40,10 @@ This extension requires installations of [VSCode](https://code.visualstudio.com/
 - [X] make lit notes from bib file
   - [X] make authors taggable
 - [X] debug logging
-- [ ] get annotations from zotero -k
-- [ ] checking for md files that have already been created -k
+- [X] checking for md files that have already been created -k
 - [ ] config info (pdf path, md path, api keys, .bib file) in vscode settings -a
+- [ ] figure out environment export
+- [ ] get annotations from zotero -k
 - [ ] write zotero setup manual -k
 - [ ] populate lit notes with llm content
 - [ ] make this into an extension
