@@ -1,0 +1,11 @@
+[bibliography]
+path = "tests/test.bib"
+
+[pdf_path]
+path = "/path/to/your/zotfile"
+
+[openai_api_key]
+api_key = ""
+
+[md_path]
+path = ""

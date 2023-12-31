@@ -3,7 +3,7 @@
 import bibtexparser
 import yaml
 import os
-
+from config import load_configuration
 
 def get_bib_database(bibtex_file):
     """
@@ -51,10 +51,21 @@ def get_yaml_from_bib_entry(bib_entry):
 
     # TODO: add checks that we are getting the right YAML elements
 
+    # Check to see if we get the right YAML elements
+
     return yaml_str
 
 
 def loop_through_bib_database(bib_database):
+    """
+    Loop through the entries in the given BibTeX database and perform some operation on each entry.
+
+    Args:
+        bib_database (BibDatabase): The BibTeX database to loop through.
+
+    Returns:
+        None
+    """
     for entry in bib_database.entries:
         get_yaml_from_bib_entry(entry)
 
@@ -103,18 +114,3 @@ def make_markdown_file(yaml_str, authors, bib_entry, output_dir=""):
 """
         f.write(doc)
 
-
-def test_md_from_bib_kat():
-    test_bibtex_file = "tests/kat-test.bib"
-
-    bib_database = get_bib_database(test_bibtex_file)
-
-    loop_through_bib_database(bib_database)
-
-    for bib_entry in bib_database.entries:
-        yaml_str = get_yaml_from_bib_entry(bib_entry)
-        authors = get_authors_from_bib_entry(bib_entry)
-        make_markdown_file(yaml_str, authors, bib_entry, output_dir="kat-test")
-
-
-test_md_from_bib()
