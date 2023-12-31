@@ -4,6 +4,7 @@ import bibtexparser
 import yaml
 import os
 from config import load_configuration
+import logging
 
 def get_bib_database(bibtex_file):
     """
@@ -103,6 +104,10 @@ def make_markdown_file(yaml_str, authors, bib_entry, output_dir=""):
     else:
         output_path = f'{bib_entry["ID"]}.md'
 
+    # If there is a file there already then don't overwrite it
+    if os.path.isfile(output_path):
+        logging.debug(f"File already exists at {output_path}. Skipping.")
+        return
     # Create the markdown file
     with open(output_path, "w") as f:
         author_string = ", ".join(f"[[{a}]]" for a in authors)
@@ -114,3 +119,6 @@ def make_markdown_file(yaml_str, authors, bib_entry, output_dir=""):
 """
         f.write(doc)
 
+if __name__ == "__main__":
+    logging.basicConfig(filename="debug.log", level=logging.DEBUG)
+    test_md_from_bib_kat()
