@@ -74,7 +74,7 @@ class ItemAnnotations(Model):
         table_name = "itemAnnotations"
 
 
-def get_table_data():
+def get_table_data(db):
     """
     Retrieves table data from the database and returns it as a pandas DataFrame.
 
@@ -183,8 +183,9 @@ def append_to_md_file(
                     # Get the section heading based on color_map
                     section_heading = colormap.get(color, "Other")
 
-                    # Write the section heading
-                    file.write(f"\n### {section_heading}\n")
+                    # Write the section heading if the length of group is more than 1
+                    if len(group) >= 1:
+                        file.write(f"\n### {section_heading}\n")
 
                     for index, row in group.iterrows():
                         text = row["text"]

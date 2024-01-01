@@ -21,7 +21,7 @@ def remove_md_files(md_path):
 
     # Check if there are any MD files
     if len(md_files) == 0:
-        print("No .md files found in the directory.")
+        logging.debug("No .md files found in the directory.")
         return
 
     # Prompt the user for confirmation

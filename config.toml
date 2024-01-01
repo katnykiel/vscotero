@@ -1,11 +1,11 @@
-[bibliography]
-path = "tests/test.bib"
+[bib_path]
+path = "/Users/kat/Library/Mobile Documents/com~apple~CloudDocs/grave/config/zotero.bib"
 
 [pdf_path]
-path = "/path/to/your/zotfile"
+path = "/Users/kat/Library/Mobile Documents/com~apple~CloudDocs/grave/papers"
+
+[md_path]
+path = "/Users/kat/Library/Mobile Documents/com~apple~CloudDocs/grave/papers"
 
 [openai_api_key]
 api_key = ""
-
-[md_path]
-path = ""
