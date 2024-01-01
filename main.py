@@ -16,7 +16,17 @@ from annotations import (
 from note_utils import remove_md_files, get_new_bib_entries
 
 
-def get_lit_notes(bibtex_file, md_path):
+def generate_lit_notes(bibtex_file, md_path):
+    """
+    Retrieves literature notes from a BibTeX file and generates markdown files.
+
+    Args:
+        bibtex_file (str): The path to the BibTeX file.
+        md_path (str): The path to the directory where the markdown files will be generated.
+
+    Returns:
+        None
+    """
     bib_database = get_bib_database(bibtex_file)
 
     for bib_entry in bib_database.entries:
@@ -26,6 +36,16 @@ def get_lit_notes(bibtex_file, md_path):
 
 
 def update_bibnotes(bibtex_file, md_path):
+    """
+    Update the bibliography notes by extracting new entries from a BibTeX file and generating corresponding markdown files.
+
+    Parameters:
+    - bibtex_file (str): The path to the BibTeX file.
+    - md_path (str): The path to the directory where the markdown files will be generated.
+
+    Returns:
+    None
+    """
     bib_database = get_bib_database(bibtex_file)
     new_bib_database = get_new_bib_entries(bib_database, md_path)
 
@@ -36,6 +56,15 @@ def update_bibnotes(bibtex_file, md_path):
 
 
 def update_annotations(md_path):
+    """
+    Update annotations in a Markdown file with filtered data from a database.
+
+    Args:
+        md_path (str): The path to the Markdown file.
+
+    Returns:
+        None
+    """
     db = load_database()
     df = get_table_data(db)
     filtered_df = filter_table_data(df)
@@ -45,6 +74,6 @@ def update_annotations(md_path):
 if __name__ == "__main__":
     bibtex_file, pdf_path, openai_api_key, md_path = load_configuration()
     # remove_md_files(md_path)
-    # get_lit_notes(bibtex_file, md_path)
+    # generate_lit_notes(bibtex_file, md_path)
     update_bibnotes(bibtex_file, md_path)
     update_annotations(md_path)
