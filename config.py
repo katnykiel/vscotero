@@ -11,10 +11,9 @@ def load_configuration():
     """
     config = toml.load("config.toml")
 
-    bibtex_file = config["bibliography"]["path"]
+    bibtex_file = config["bib_path"]["path"]
     pdf_path = config["pdf_path"]["path"]
-    openai_api_key = config["openai_api_key"]["api_key"]
     md_path = config["md_path"]["path"]
+    openai_api_key = config["openai_api_key"]["api_key"]
 
     return bibtex_file, pdf_path, openai_api_key, md_path
-

@@ -17,6 +17,11 @@ This extension requires installations of [VSCode](https://code.visualstudio.com/
 - Zotfile
 - auto-export .bib file
 
+## Installation 
+
+- add the config information to config.toml
+- 
+
 ## idea
  
 - input: a paper in the browser you want to read
