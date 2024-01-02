@@ -1,5 +1,6 @@
 import os
 from core import get_bib_database
+import os
 
 
 def remove_md_files(md_path):
@@ -21,7 +22,7 @@ def remove_md_files(md_path):
 
     # Check if there are any MD files
     if len(md_files) == 0:
-        print("No .md files found in the directory.")
+        logging.debug("No .md files found in the directory.")
         return
 
     # Prompt the user for confirmation
@@ -59,3 +60,26 @@ def get_new_bib_entries(bib_database, md_path):
             filtered_bib_database.entries.remove(entry)
 
     return filtered_bib_database
+
+
+def get_bibID_from_file(file_path, bib_database):
+    """
+    Get the bibID from the given file path.
+
+    Args:
+        file_path (str): The path to the file.
+        bib_database (BibDatabase): The bib database containing the entries.
+
+    Returns:
+        str: The bibID if the file exists in the bib database, otherwise None.
+    """
+    bib_entries = bib_database.entries
+
+    for entry in bib_entries:
+        if "file" in entry:
+            files = entry["file"].split(";")
+            for file in files:
+                if file.strip() == file_path:
+                    return entry.get("ID")
+
+    return None

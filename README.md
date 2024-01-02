@@ -10,12 +10,17 @@ This extension generates literature notes (.md) from your Zotero library and aut
 
 *insert an image or quick video demo-ing the tool*
 
-## Requirements
+# Requirements
 
 This extension requires installations of [VSCode](https://code.visualstudio.com/) and [Zotero](https://www.zotero.org/), with the following requirements:
 
-- Zotfile
 - auto-export .bib file
+- absolute paths in zotero
+
+## Installation 
+
+- add the config information to config.toml
+- 
 
 ## idea
  

@@ -5,6 +5,8 @@ import pandas as pd
 import shutil
 import warnings
 import logging
+from note_utils import get_bibID_from_file
+from config import load_configuration
 
 
 def copy_database_file(source_path):
@@ -74,7 +76,7 @@ class ItemAnnotations(Model):
         table_name = "itemAnnotations"
 
 
-def get_table_data():
+def get_table_data(db):
     """
     Retrieves table data from the database and returns it as a pandas DataFrame.
 
@@ -104,25 +106,23 @@ def get_table_data():
     return df
 
 
-def filter_table_data(df):
+def filter_table_data(df, bib_database):
     """
     Filter table data by removing annotations with incorrect paths and stripping out bibID from path.
 
     Args:
         df (pandas.DataFrame): The input DataFrame containing the table data.
+        bib_database (BibDatabase): The BibDatabase object containing the correct bibID information.
 
     Returns:
         pandas.DataFrame: The filtered DataFrame with annotations removed and bibID stripped.
     """
     filtered_df = df.copy()
 
-    # Remove annotations with incorrect paths
-    filtered_df = filtered_df[filtered_df["bibID"].str.contains("pdf")]
-    filtered_df = filtered_df[filtered_df["bibID"].str.contains("attachments")]
-
-    # Strip out bibID from path by removing attachments: and .pdf
-    filtered_df["bibID"] = filtered_df["bibID"].str.replace("attachments:", "")
-    filtered_df["bibID"] = filtered_df["bibID"].str.replace(".pdf", "")
+    # Updatet the bibID column with the correct path
+    filtered_df["bibID"] = filtered_df["bibID"].apply(
+        lambda x: get_bibID_from_file(x, bib_database)
+    )
 
     return filtered_df
 
@@ -183,8 +183,9 @@ def append_to_md_file(
                     # Get the section heading based on color_map
                     section_heading = colormap.get(color, "Other")
 
-                    # Write the section heading
-                    file.write(f"\n### {section_heading}\n")
+                    # Write the section heading if the length of group is more than 1
+                    if len(group) >= 1:
+                        file.write(f"\n### {section_heading}\n")
 
                     for index, row in group.iterrows():
                         text = row["text"]

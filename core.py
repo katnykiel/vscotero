@@ -53,23 +53,7 @@ def get_yaml_from_bib_entry(bib_entry):
 
     # TODO: add checks that we are getting the right YAML elements
 
-    # Check to see if we get the right YAML elements
-
     return yaml_str
-
-
-def loop_through_bib_database(bib_database):
-    """
-    Loop through the entries in the given bib_database and perform some operation on each entry.
-
-    Args:
-        bib_database (BibDatabase): The BibDatabase object containing the entries.
-
-    Returns:
-        None
-    """
-    for entry in bib_database.entries:
-        get_yaml_from_bib_entry(entry)
 
 
 def get_authors_from_bib_entry(bib_entry):
