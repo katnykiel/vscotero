@@ -1,12 +1,11 @@
 # vsco-tero
 
-> An unholy blend of vs-code and Zotero for literature review
+> An unholy blend of vs-code and zotero for literature review
 
-This extension generates literature notes (.md) from your Zotero library and autopopulates them with the following:
+This extension generates literature notes (.md) from your zotero library and autopopulates them with the following:
 
 - item metadata
-- your Zotero annotations
-- author names
+- your zotero annotations
 
 ![demonstration of vsco-tero usage](demo.gif)
 
