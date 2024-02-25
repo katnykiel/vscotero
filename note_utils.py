@@ -1,6 +1,5 @@
 import os
 from core import get_bib_database
-import os
 
 
 def remove_md_files(md_path):
