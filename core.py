@@ -49,7 +49,7 @@ def get_yaml_from_bib_entry(bib_entry):
     """
 
     # Convert the entry to yaml using yaml.dump
-    yaml_str = yaml.dump(bib_entry)
+    yaml_str = yaml.dump(bib_entry, width=float("inf"))
 
     # TODO: add checks that we are getting the right YAML elements
 
@@ -82,6 +82,18 @@ def make_markdown_file(yaml_str, authors, bib_entry, output_dir=""):
 
     # If there is a / in the bib_entry["ID"] then remove the /
     bib_entry["ID"] = bib_entry["ID"].replace("/", "-")
+
+    # Only take the last file, which may be split with ; or be a single file
+    if "file" in bib_entry:
+        bib_entry["file"] = bib_entry["file"].split(";")[-1]
+
+    # Fix title by removing any curly braces
+    if "title" in bib_entry:
+        bib_entry["title"] = bib_entry["title"].replace("{", "").replace("}", "")
+
+    # Do the same for publisher
+    if "publisher" in bib_entry:
+        bib_entry["publisher"] = bib_entry["publisher"].replace("{", "").replace("}", "")
 
     # Check if the output directory exists
     if output_dir and os.path.isdir(output_dir):

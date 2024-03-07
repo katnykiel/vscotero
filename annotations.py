@@ -198,7 +198,6 @@ def append_to_md_file(
 "{text}", pg. {pageLabel}
 
 > {comment}
-
 """
                         else:
                             # Format the string
