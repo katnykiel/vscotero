@@ -43,3 +43,22 @@ vscode:
   - [ ] Path to Zotero Annotations
   - [ ] Path to Literature Notes
   - [ ] OpenAI API Key
+
+
+how do we make queries simple and reduce redundant queries?
+- this should be rebuilt to handle the new changes and make the code more general
+- note query structure
+  - populate the md notes with a mix of user-added and llm-generated insight from the paper by reading the pdfs
+  - map the md files to an embedding space
+  - when you make a query, get closest md files by embedding the query
+  - set a parameter that controls how many embedding files you want to use for each query (better answers -> more lit notes)
+  - when you download a new paper, easily run an update script and get the annotations from LLMs so you can read it and have some context
+
+- add options to include PDFs in the query (convert to text)
+- one big query? are pdfs actually more expensive? can we just do all the md notes?
+
+- add keywords to the PDFs for a better graph view
+
+- do we want to generate new notes for questions asked?
+
+- use langchain? maybe not in the initial build but eventually yea this seems like the robust way to do it
