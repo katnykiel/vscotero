@@ -1,81 +1,29 @@
-from config import load_configuration
-from core import (
-    get_bib_database,
-    get_yaml_from_bib_entry,
-    get_authors_from_bib_entry,
-    make_markdown_file,
-)
+import toml
+from vscotero.src.writer import LitNote
+from vscotero.src.bib import get_bib_database
+from vscotero.src.annotations import get_annotations, load_database
 
-from annotations import (
-    load_database,
-    get_table_data,
-    filter_table_data,
-    append_to_md_file,
-)
+# load your configuration file
+config = toml.load("config.toml")
 
-from note_utils import remove_md_files, get_new_bib_entries
+# set a colormap for your annotations
+colormap = {
+    "#e56eee": "Contributions",  # pink
+    "#ffd400": "Insights",  # yellow
+    "#ff6666": "Discrepancies",  # red
+    "#a28ae5": "Methods",  # purple
+    "#5fb236": "Gaps",  # green
+    "#2ea8e5": "Supplemental",  # blue
+}
 
+config["notes"]["colormap"] = colormap
 
-def generate_lit_notes(bibtex_file, md_path):
-    """
-    Retrieves literature notes from a BibTeX file and generates markdown files.
+# load your bibtex database and annotations
+bibDatabase = get_bib_database(config["notes"]["bib_path"])
+annotation_df = get_annotations(config["notes"]["db_path"], bibDatabase)
 
-    Args:
-        bibtex_file (str): The path to the BibTeX file.
-        md_path (str): The path to the directory where the markdown files will be generated.
-
-    Returns:
-        None
-    """
-    bib_database = get_bib_database(bibtex_file)
-
-    for bib_entry in bib_database.entries:
-        yaml_str = get_yaml_from_bib_entry(bib_entry)
-        authors = get_authors_from_bib_entry(bib_entry)
-        make_markdown_file(yaml_str, authors, bib_entry, md_path)
-
-
-def update_bibnotes(bibtex_file, md_path):
-    """
-    Update the bibliography notes by extracting new entries from a BibTeX file and generating corresponding markdown files.
-
-    Parameters:
-    - bibtex_file (str): The path to the BibTeX file.
-    - md_path (str): The path to the directory where the markdown files will be generated.
-
-    Returns:
-    None
-    """
-    bib_database = get_bib_database(bibtex_file)
-    new_bib_database = get_new_bib_entries(bib_database, md_path)
-
-    for bib_entry in new_bib_database.entries:
-        yaml_str = get_yaml_from_bib_entry(bib_entry)
-        authors = get_authors_from_bib_entry(bib_entry)
-        make_markdown_file(yaml_str, authors, bib_entry, md_path)
-
-
-def update_annotations(md_path, bib_path):
-    """
-    Update annotations in a Markdown file with filtered data from a database.
-
-    Args:
-        md_path (str): The path to the Markdown file.
-        bib_path (str): The path to the BibTeX file.
-
-    Returns:
-        None
-    """
-    db = load_database()
-    df = get_table_data(db)
-    bib_database = get_bib_database(bib_path)
-    filtered_df = filter_table_data(df, bib_database)
-    append_to_md_file(filtered_df, md_path)
-
-
-if __name__ == "__main__":
-    bibtex_file, pdf_path, openai_api_key, md_path = load_configuration()
-    # remove_md_files(md_path)
-    # generate_lit_notes(bibtex_file, md_path)
-    update_bibnotes(bibtex_file, md_path)
-    update_annotations(md_path, bibtex_file)
+# generate lit notes for each entry in your bibtex database
+for bib_entry in bibDatabase.entries:
+    note = LitNote(bib_entry, config)
+    note.get_annotations(annotation_df)
+    note.write_file()

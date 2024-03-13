@@ -1,11 +1,9 @@
-[bib_path]
-path = ""
+[notes]
+bib_path = "/Users/kat/Library/Mobile Documents/com~apple~CloudDocs/grave/config/zotero.bib" # path to zotero-exported .bib file
+md_path = "/Users/kat/Library/Mobile Documents/com~apple~CloudDocs/grave/papers" # path to .md literature note files
+pdf_path = "/Users/kat/Library/Mobile Documents/com~apple~CloudDocs/grave/papers" # path to zotero .pdf files
+db_path = "~/Zotero/zotero.sqlite" # path to zotero sqlite db
 
-[pdf_path]
-path = ""
-
-[md_path]
-path = ""
-
-[openai_api_key]
-api_key = ""
+[llms]
+claude_api_key = "" # claude api key, for building annotations
+voyager_api_key = "" # voyagerai api key, for building embeddings

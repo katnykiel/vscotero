@@ -1,14 +1,4 @@
-# Ignore all .md files
-*.md
-
-# Except for readme.md
-!readme.md
-
-# Ignore kat's testing
-kat-test
-kat-test.bib
-
-*.log
+brainstorming.md
 __pycache__
 .DS_Store
 
