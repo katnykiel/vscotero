@@ -1,8 +1,8 @@
 [notes]
-bib_path = "/Users/kat/Library/Mobile Documents/com~apple~CloudDocs/grave/config/zotero.bib" # path to zotero-exported .bib file
-md_path = "/Users/kat/Library/Mobile Documents/com~apple~CloudDocs/grave/papers" # path to .md literature note files
-pdf_path = "/Users/kat/Library/Mobile Documents/com~apple~CloudDocs/grave/papers" # path to zotero .pdf files
-db_path = "~/Zotero/zotero.sqlite" # path to zotero sqlite db
+bib_path = "" # path to zotero-exported .bib file
+md_path = "" # path to .md literature note files
+pdf_path = "" # path to zotero .pdf files
+db_path = "~/Zotero/zotero.sqlite" # path to zotero sqlite db, default is for mac
 
 [llms]
 claude_api_key = "" # claude api key, for building annotations
