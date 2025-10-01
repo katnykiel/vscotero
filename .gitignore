@@ -1,9 +1,9 @@
 brainstorming.md
-embeddings
-test-pdfs
-llm.py
-__pycache__
+__pycache__/
 .DS_Store
-
-
-
+*.pyc
+dist/
+build/
+*.egg-info/
+uv.lock
+*.sqlite.copy

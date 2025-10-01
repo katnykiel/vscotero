@@ -1,13 +1,35 @@
 [project]
-name = "vsco-tero"
-version = "0.1.0"
-description = "Add your description here"
+name = "vscotero"
+version = "0.2.0"
+description = "VSCode + Zotero literature note ingester"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "bibtexparser>=1.4.3",
     "pandas>=2.2.3",
-    "peewee>=3.17.9",
     "pyyaml>=6.0.2",
     "toml>=0.10.2",
+    "typer>=0.12.5",
+    "pytest>=8.0.0",
 ]
+
+
+
+[project.scripts]
+vscotero = "vscotero.cli:app"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+addopts = "-q"
+
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.uv]
+package = true
+
+[tool.setuptools.packages.find]
+include = ["vscotero"]
+exclude = ["tests", "embeddings", "test-pdfs"]
+
