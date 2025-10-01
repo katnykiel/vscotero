@@ -2,6 +2,7 @@ import toml
 from vscotero.src.writer import LitNote
 from vscotero.src.bib import get_bib_database
 from vscotero.src.annotations import get_annotations, load_database
+from vscotero.src.utils import remove_md_files
 
 # load your configuration file
 config = toml.load("config.toml")
@@ -17,6 +18,9 @@ colormap = {
 }
 
 config["notes"]["colormap"] = colormap
+
+# remove old markdown files
+# remove_md_files(config["notes"]["md_path"])
 
 # load your bibtex database and annotations
 bibDatabase = get_bib_database(config["notes"]["bib_path"])

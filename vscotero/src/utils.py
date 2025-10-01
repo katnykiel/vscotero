@@ -1,5 +1,5 @@
 import os
-
+import logging
 
 def remove_md_files(md_path):
     """

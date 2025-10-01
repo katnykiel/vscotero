@@ -8,8 +8,8 @@ import logging
 from .bib import get_bibID_from_file
 import toml
 
-config = toml.load("config.toml")
-
+config_path = os.path.join(os.path.dirname(__file__), "../../config.toml")
+config = toml.load(os.path.abspath(config_path))
 
 def get_annotations(db_path, bibDatabase):
     """
@@ -58,9 +58,8 @@ def load_database(db_path):
     db = SqliteDatabase(db_path_copy)
     return db
 
-
+# pre-load the database
 db = load_database(config["notes"]["db_path"])
-
 
 class ItemAttachments(Model):
     """
@@ -91,6 +90,7 @@ class ItemAnnotations(Model):
     pageLabel = TextField()
 
     class Meta:
+        
         database = db
         table_name = "itemAnnotations"
 

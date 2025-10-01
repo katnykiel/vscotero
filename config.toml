@@ -3,7 +3,3 @@ bib_path = "" # path to zotero-exported .bib file
 md_path = "" # path to .md literature note files
 pdf_path = "" # path to zotero .pdf files
 db_path = "~/Zotero/zotero.sqlite" # path to zotero sqlite db, default is for mac
-
-[llms]
-claude_api_key = "" # claude api key, for building annotations
-voyager_api_key = "" # voyagerai api key, for building embeddings
