@@ -10,8 +10,34 @@ dependencies = [
     "pyyaml>=6.0.2",
     "toml>=0.10.2",
     "typer>=0.12.5",
+]
+license = { file = "LICENSE" }
+authors = [
+    { name = "katnykiel" }
+]
+keywords = ["zotero", "notes", "markdown", "knowledge-base", "cli", "vscode"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: End Users/Desktop",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Text Processing :: Markup :: Markdown",
+    "Topic :: Utilities",
+]
+
+[project.optional-dependencies]
+dev = [
     "pytest>=8.0.0",
 ]
+
+[project.urls]
+Homepage = "https://github.com/katnykiel/vscotero"
+Repository = "https://github.com/katnykiel/vscotero"
+Issues = "https://github.com/katnykiel/vscotero/issues"
+Changelog = "https://github.com/katnykiel/vscotero/blob/main/CHANGELOG.md"
 
 
 

@@ -12,14 +12,24 @@ Generate markdown literature notes from your Zotero library (metadata + annotati
 - Deterministic & scriptable CLI (`vscotero ingest`)
 
 ### Installation
-vscotero is currently distributed as source only. A published Python package (PyPI) is planned for a future release.
 
 1. Configure Zotero to auto‑export a BibTeX file (Better BibTeX recommended).
-2. Clone this repository.
-3. Choose one of the local setup options below.
+2. Install via pip (recommended once published) OR work from source (below).
 
-#### Option A: Use uv (recommended)
-Use uv to create and manage an isolated environment automatically (no manual activation needed).
+#### Option A: From PyPI (once released)
+```bash
+pip install vscotero
+vscotero ingest --path config.toml --limit 1
+```
+
+#### Option B: Latest (GitHub) with pip
+```bash
+pip install git+https://github.com/katnykiel/vscotero.git
+vscotero ingest --path config.toml --limit 1
+```
+
+#### Option C: Clone + uv (recommended for development)
+Clone this repo, then:
 
 Sync / install (safe to re-run):
 ```bash
@@ -41,7 +51,7 @@ Run tests:
 uv run pytest -q
 ```
 
-#### Option B: Plain pip / virtualenv
+#### Option D: Plain pip / virtualenv
 ```bash
 python -m venv .venv
 source .venv/bin/activate
@@ -49,15 +59,39 @@ pip install --upgrade pip
 pip install -e .
 vscotero --path config.toml
 ```
+3. Create / fill `config.toml` (example below).
 
-#### (Future) PyPI installation (planned)
-Will become as simple as:
+### Publishing (maintainers)
+Build & upload using uv (preferred):
 ```bash
-pip install vscotero
-vscotero --path config.toml
+uv build          # produces sdist + wheel under dist/
+uv publish        # prompts for PyPI token on first use or use UV_PUBLISH_TOKEN
 ```
 
-4. Create / fill `config.toml` (example below).
+Test on TestPyPI first:
+```bash
+uv publish --index-url https://test.pypi.org/legacy/
+pip install --index-url https://test.pypi.org/simple --no-deps vscotero
+```
+
+Alternative (twine):
+```bash
+pip install build twine
+python -m build
+twine upload dist/*
+```
+
+Version bump workflow (semantic-ish):
+1. Update `version` in `pyproject.toml` (and CHANGELOG)
+2. Commit + tag, e.g. `git tag -a v0.2.1 -m "v0.2.1"`
+3. `git push --follow-tags`
+4. Run publish
+
+After release, verify:
+```bash
+pip install --upgrade vscotero
+vscotero --version
+```
 
 ### Example `config.toml`
 ```toml
