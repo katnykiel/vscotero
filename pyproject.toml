@@ -3,7 +3,7 @@ name = "vscotero"
 version = "0.2.0"
 description = "VSCode + Zotero literature note ingester"
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.10"
 dependencies = [
     "bibtexparser>=1.4.3",
     "pandas>=2.2.3",

@@ -1,7 +1,9 @@
 { pkgs ? import <nixpkgs> {} }:
 
 let
-  python = pkgs.python313;
+  python = if builtins.hasAttr "python310" pkgs then pkgs.python310
+           else if builtins.hasAttr "python311" pkgs then pkgs.python311
+           else pkgs.python3;
   pythonPackages = python.pkgs;
 in
 pkgs.mkShell {
