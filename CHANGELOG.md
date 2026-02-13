@@ -1,5 +1,7 @@
 ## Changelog
 
+### 0.2.1 - Update python version range
+
 ### 0.2.0 - Initial public release
 * CLI command `vscotero ingest` with options: `--path`, `--clean`, `--limit`, `--debug`, `--version`.
 * BibTeX + Zotero sqlite ingestion -> Markdown notes with YAML front matter.
