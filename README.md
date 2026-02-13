@@ -5,65 +5,18 @@ Generate markdown literature notes from your Zotero library (metadata + annotati
 ![demonstration of vscotero usage](demo.gif)
 
 ### Features
+
 - Extract item metadata from a Zotero auto‑exported BibTeX file
-- Pull PDF annotations directly from the Zotero `zotero.sqlite` database (copied safely to avoid locks)
+- Pull PDF annotations directly from the Zotero `zotero.sqlite` database
 - Group annotations by highlight color (configurable colormap)
-- Produce one Markdown note per reference with YAML front matter
-- Deterministic & scriptable CLI (`vscotero ingest`)
 
-### Installation
-vscotero is currently distributed as source only. A published Python package (PyPI) is planned for a future release.
+### Recommended installation: pip
 
-1. Configure Zotero to auto‑export a BibTeX file (Better BibTeX recommended).
-2. Clone this repository.
-3. Choose one of the local setup options below.
-
-#### Option A: Use uv (recommended)
-Use uv to create and manage an isolated environment automatically (no manual activation needed).
-
-Sync / install (safe to re-run):
-```bash
-uv sync
-```
-
-Check the CLI version:
-```bash
-uv run vscotero --version
-```
-
-Ingest (example with a limit + debug):
-```bash
-uv run vscotero ingest --path config.toml --limit 1 --debug
-```
-
-Run tests:
-```bash
-uv run pytest -q
-```
-
-#### Option B: Use nix
-```bash
-nix-shell
-vscotero --version
-```
-
-#### Option C: Plain pip / virtualenv
-```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install --upgrade pip
-pip install -e .
-vscotero --path config.toml
-```
-
-#### (Future) PyPI installation (planned)
-Will become as simple as:
 ```bash
 pip install vscotero
-vscotero --path config.toml
 ```
 
-4. Create / fill `config.toml` (example below).
+Then configure Zotero to auto-export a BibTeX file (Better BibTeX recommended) and create a `config.toml` file (see example below).
 
 ### Example `config.toml`
 ```toml
@@ -79,16 +32,6 @@ Ingest all notes:
 vscotero ingest --path config.toml
 ```
 
-Clean existing notes first:
-```bash
-vscotero ingest --path config.toml --clean
-```
-
-Limit number (debugging):
-```bash
-vscotero ingest --path config.toml --limit 5
-```
-
 ### Color Map
 Override in `config.toml` (any subset):
 ```toml
@@ -97,15 +40,26 @@ Override in `config.toml` (any subset):
 "#ff6666" = "Discrepancies"
 ```
 
-### Development
-Run tests:
-```bash
-uv run pytest -q
-```
-
-View version:
-```bash
-vscotero --version
-```
-
 See `CHANGELOG.md` for release notes.
+
+#### Build from source
+
+```bash
+git clone https://github.com/katnykiel/vscotero
+cd vscotero
+python -m venv .venv
+source .venv/bin/activate
+pip install -e .
+```
+
+### TODOs
+
+- fix the config system
+  - add CLI option, put config.toml in some default path
+  - remove .bib path? doesn't db have this info
+- confirmation prompt before deletion
+- check if it overwrites notes (it does, fix)
+- add color hex codes to default config.toml with description
+- error handling
+- better tests for edge cases / bad config
+- add a nix install
