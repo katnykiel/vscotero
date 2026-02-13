@@ -1,5 +1,7 @@
 ## Changelog
 
+### 0.2.2 - Introduced item note extraction
+
 ### 0.2.1 - Update python version range
 
 ### 0.2.0 - Initial public release

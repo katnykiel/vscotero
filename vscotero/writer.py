@@ -12,6 +12,7 @@ class LiteratureNoteWriter:
         self.md_dir = md_dir
         self.colormap = colormap
         self.annotations_grouped = None
+        self.item_notes = None
 
     @property
     def note_path(self) -> Path:
@@ -35,6 +36,14 @@ class LiteratureNoteWriter:
         subset = subset.sort_values("color")
         self.annotations_grouped = list(subset.groupby("color", observed=False))
 
+    def set_item_notes(self, item_notes_df: pd.DataFrame):
+        """Set item notes for this entry."""
+        subset = item_notes_df[item_notes_df["bibID"] == self.entry["ID"]].copy()
+        if subset.empty:
+            self.item_notes = []
+        else:
+            self.item_notes = subset[["title", "note"]].to_dict("records")
+
     def annotations_section(self) -> str:
         if self.annotations_grouped is None:
             return "## Annotations\n"
@@ -54,6 +63,25 @@ class LiteratureNoteWriter:
                     out.append(f'"{text}", pg. {page}')
         return "\n\n".join(out) + "\n"
 
+    def item_notes_section(self) -> str:
+        """Format item notes as a section at the bottom of the document."""
+        if self.item_notes is None or not self.item_notes:
+            return ""
+        out = ["## Notes"]
+        for note_dict in self.item_notes:
+            title = note_dict.get("title", "").strip()
+            note = note_dict.get("note", "").strip()
+            if title:
+                out.append(f"### {title}")
+                # Remove title from note content if it appears at the start
+                if note and note.startswith(title):
+                    note = note[len(title):].strip()
+                if note:
+                    out.append(note)
+            elif note:
+                out.append(note)
+        return "\n\n".join(out) + "\n"
+
     def yaml_front_matter(self) -> str:
         fm = yaml.safe_dump(self.entry, width=float("inf")).strip()
         return f"---\n{fm}\n---"
@@ -63,6 +91,7 @@ class LiteratureNoteWriter:
             self.yaml_front_matter(),
             self.authors_str(),
             self.annotations_section(),
+            self.item_notes_section(),
         ]
         return "\n\n".join(p for p in parts if p).rstrip() + "\n"
 

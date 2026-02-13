@@ -5,7 +5,7 @@ import typer
 from .config import NotesConfig
 from . import __version__
 from .bib import load_bib_database
-from .annotations import load_annotations
+from .annotations import load_annotations, load_item_notes
 from .writer import LiteratureNoteWriter
 
 app = typer.Typer(help="VSCode + Zotero ingestion utility")
@@ -43,11 +43,13 @@ def ingest_core(config_path: Path, clean: bool = False, limit: int | None = None
 
     bib_db = load_bib_database(cfg.bib_path)
     ann_df = load_annotations(cfg.db_path, bib_db, debug=debug)
+    notes_df = load_item_notes(cfg.db_path, bib_db)
 
     count = 0
     for entry in bib_db.entries:
         writer = LiteratureNoteWriter(entry, cfg.md_path, cfg.colormap)
         writer.group_annotations(ann_df)
+        writer.set_item_notes(notes_df)
         writer.write()
         count += 1
         if limit is not None and count >= limit:
