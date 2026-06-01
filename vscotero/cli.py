@@ -31,7 +31,13 @@ def _display_version():  # pragma: no cover - simple output
     raise typer.Exit()
 
 
-def ingest_core(config_path: Path, clean: bool = False, limit: int | None = None, debug: bool = False) -> int:
+def ingest_core(
+    config_path: Path,
+    clean: bool = False,
+    limit: int | None = None,
+    debug: bool = False,
+    overwrite: bool = False,
+) -> int:
     """Core ingestion logic. Returns number of notes written."""
     cfg = NotesConfig.load(config_path)
     cfg.validate()
@@ -50,7 +56,7 @@ def ingest_core(config_path: Path, clean: bool = False, limit: int | None = None
         writer = LiteratureNoteWriter(entry, cfg.md_path, cfg.colormap)
         writer.group_annotations(ann_df)
         writer.set_item_notes(notes_df)
-        writer.write()
+        writer.write(overwrite=overwrite)
         count += 1
         if limit is not None and count >= limit:
             break
@@ -64,9 +70,14 @@ def ingest_command(
     clean: bool = typer.Option(False, help="Remove existing .md files before writing"),
     limit: int | None = typer.Option(None, help="Limit number of notes"),
     debug: bool = typer.Option(False, help="Print debug info for unmatched annotations"),
+    overwrite: bool = typer.Option(
+        False,
+        "--overwrite",
+        help="Overwrite existing notes completely instead of updating them in place",
+    ),
 ):
     """Generate literature notes from Zotero bib + annotations."""
-    ingest_core(path, clean=clean, limit=limit, debug=debug)
+    ingest_core(path, clean=clean, limit=limit, debug=debug, overwrite=overwrite)
 
 
 def main():  # pragma: no cover

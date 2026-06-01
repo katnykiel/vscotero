@@ -82,22 +82,65 @@ class LiteratureNoteWriter:
                 out.append(note)
         return "\n\n".join(out) + "\n"
 
+    BLOCK_FENCE = "==="
+
     def yaml_front_matter(self) -> str:
         fm = yaml.safe_dump(self.entry, width=float("inf")).strip()
         return f"---\n{fm}\n---"
 
-    def build_document(self) -> str:
+    def build_managed_block(self) -> str:
+        """Build the auto-generated content that lives inside the === fences."""
         parts = [
-            self.yaml_front_matter(),
             self.authors_str(),
             self.annotations_section(),
             self.item_notes_section(),
         ]
+        inner = "\n\n".join(p for p in parts if p).rstrip()
+        return f"{self.BLOCK_FENCE}\n\n{inner}\n\n{self.BLOCK_FENCE}"
+
+    def build_document(self) -> str:
+        parts = [
+            self.yaml_front_matter(),
+            self.build_managed_block(),
+        ]
         return "\n\n".join(p for p in parts if p).rstrip() + "\n"
 
-    def write(self):
+    def update_document(self, existing: str) -> str:
+        """Return updated content: replaces YAML front matter and managed block,
+        preserving everything else in the file."""
+        import re
+
+        new_yaml = self.yaml_front_matter()
+        new_block = self.build_managed_block()
+
+        # Replace YAML front matter (must be at start of file)
+        yaml_pattern = re.compile(r"^---\n.*?\n---", re.DOTALL)
+        if yaml_pattern.match(existing):
+            updated = yaml_pattern.sub(lambda _: new_yaml, existing, count=1)
+        else:
+            # No existing front matter — prepend it
+            updated = new_yaml + "\n\n" + existing
+
+        # Replace managed block if present, otherwise append it
+        fence = re.escape(self.BLOCK_FENCE)
+        block_pattern = re.compile(
+            r"^" + fence + r"\n.*?\n" + fence + r"$",
+            re.DOTALL | re.MULTILINE,
+        )
+        if block_pattern.search(updated):
+            updated = block_pattern.sub(lambda _: new_block, updated, count=1)
+        else:
+            updated = updated.rstrip() + "\n\n" + new_block + "\n"
+
+        return updated.rstrip() + "\n"
+
+    def write(self, overwrite: bool = False):
         self.md_dir.mkdir(parents=True, exist_ok=True)
-        self.note_path.write_text(self.build_document(), encoding="utf-8")
+        if not overwrite and self.note_path.exists():
+            existing = self.note_path.read_text(encoding="utf-8")
+            self.note_path.write_text(self.update_document(existing), encoding="utf-8")
+        else:
+            self.note_path.write_text(self.build_document(), encoding="utf-8")
 
 
 __all__ = ["LiteratureNoteWriter"]
