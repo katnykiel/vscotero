@@ -1,5 +1,7 @@
 ## Changelog
 
+### 0.3.0 - Markdown files no longer overwrite by default
+
 ### 0.2.2 - Introduced item note extraction
 
 ### 0.2.1 - Update python version range

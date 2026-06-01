@@ -58,8 +58,8 @@ pip install -e .
   - add CLI option, put config.toml in some default path
   - remove .bib path? doesn't db have this info
 - confirmation prompt before deletion
-- check if it overwrites notes (it does, fix)
 - add color hex codes to default config.toml with description
 - error handling
 - better tests for edge cases / bad config
 - add a nix install
+- ~~check if it overwrites notes (it does, fix)~~
